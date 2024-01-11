@@ -134,3 +134,56 @@ Emacs doesn't use the standard cut/copy/past paradigm that your OS employs, inst
 
 ## Using Emacs with Clojure
 
+CIDER is a package that allows the Clojure REPL to run within Emacs: https://github.com/clojure-emacs/cider/
+
+Install it by running `[M-x] package-install [rtn] cider [rtn]`.
+
+Open a Clojure source file and point Emacs to the project root directory, then open the REPL by running `[M-x] cider-jack-in [rtn]`.
+
+This will open up a second "window" in which the REPL will run within the overall Emacs "frame", the terminology here is a bit confusing as it's somewhat counter to modern terminology:
+
+![Frame v Window in Emacs](framevwindow.png "Frame v Window in Emacs")
+
+Here, the red section is the frame (note this does not include the actual application window), and the green sections are the individual windows - one for our Clojure source file and another for the REPL.
+
+- C-x o	Switch cursor to another window. Try this now to switch between your Clojure file and the REPL.
+- C-x 1	Delete all other windows, leaving only the current window in the frame. This doesn’t close your buffers, and it won’t cause you to lose any work.
+- C-x 2	Split frame above and below.
+- C-x 3	Split frame side by side.
+- C-x 0	Delete current window.
+
+### Clojure-specific Key Bindings
+
+- C-x C-e   runs the `cider-eval-last-expression` function
+- C-u C-x C-e   also prints the result of the evaluation after the point
+- C-c M-n M-n   sets the namespace in the REPL to that of our source file
+- C-up/C-down   cycle through the REPL history (this conflicts with system keybinds on Mac)
+- C-rtn used in the REPL will add the closing parentheses and execute the expression or function call
+- C-c C-d C-d   displays documentation for the symbol under the point (q to close this)
+- M-minus   navigates to the source code of the symbol under the point, a second time returns to the original buffer and position
+- C-c C-d C-a   searches across function names and documentation
+
+### Handling Errors
+
+An error in the REPL will produce a stack trace, press C-x o to switch to the error windows and press q to close it.
+
+If an error existing in your source file when you save it, it too will produce a stack trace, again pressing q while in the stack trace window will close it.
+
+### Paredit
+
+Paredit is an Emacs minor mode that ensures all opened parentheses, double quotes and brackets are automatically closed.
+
+Paredit has a number of key bindings for allowing us to easily navigate and alter the structure of our parentheses. A full cheat sheet can be found here: https://github.com/georgek/paredit-cheatsheet/blob/master/paredit-cheatsheet.pdf
+
+- M-x paredit-mode  enable/disable paredit mode in Emacs
+- M-( (M-shift+9)   creates a parentheses for wrap around, we can add a symbol and the use C-right to extend the wrap around right
+
+For example, we can turn `(+ 1 2 3 4)` into `(+ 1 (* 2 3) 4)` by using the wrap around key binding. If we extend the wrap around too far we can pull back the closing parentheses with C-left.
+
+- C-M-f move to the opening parentheses
+- C-M-b move to the closing parentheses
+
+Emacs reference card: http://www.ic.unicamp.br/~helio/disciplinas/MC102/Emacs_Reference_Card.pdf
+
+- C-h t opens Emacs built-in tutorial
+
